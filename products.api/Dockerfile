@@ -39,24 +39,18 @@ RUN dotnet publish "products.api.csproj" -c $BUILD_CONFIGURATION -o /app/publish
 # Final stage
 FROM base AS final
 ARG BUILD_CONFIGURATION=Release
-
 WORKDIR /app
 COPY --from=publish /app/publish .
-
 # COPY migration-bundle and entrypoint.sh
 # COPY ["../migration-bundle", "./migration-bundle"]
 # RUN chmod +x ./migration-bundle
 
+USER root
 COPY ["products.api/entrypoint.sh", "./entrypoint.sh"]
 RUN chmod +x ./entrypoint.sh
+RUN chown -R appuser:appuser /app
 
-# Set environment based on build configuration
-
+USER appuser
 ARG ASPNETCORE_ENVIRONMENT=Production
 ENV ASPNETCORE_ENVIRONMENT=$ASPNETCORE_ENVIRONMENT
-
-USER root
-RUN chown -R appuser:appuser /app
-USER appuser
-
 ENTRYPOINT ["./entrypoint.sh"]

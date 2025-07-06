@@ -19,12 +19,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 {
+    var instanceId = Environment.MachineName; //  MachineName
+
+
     app.MapOpenApi();
     app.MapScalarApiReference();
     app.UseHttpsRedirection();
-
-    app.MapGet("/health", () => Results.Ok("Products API healthy"));
-    app.MapGet("/api/products/health", () => Results.Ok("Products API healthy"));
+    app.MapGet("/health", () => Results.Ok("Healthy"));
+    app.MapGet("/api/products/health", () => Results.Ok($"Products API {instanceId} healthy"));
     app.MapGet("/api/products", async (ProductsDbContext db) =>
     {
         var products = await db.Products.AsNoTracking().ToListAsync();

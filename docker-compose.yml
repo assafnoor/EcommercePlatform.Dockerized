@@ -1,6 +1,4 @@
-﻿version: '3.9'
-
-services:
+﻿services:
   gateway:
     build:
       context: .
@@ -11,9 +9,9 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Production}
       - ASPNETCORE_URLS=http://+:8080
-      - ReverseProxy__Clusters__productsCluster__Destinations__productsApi__Address=http://products-api:8080/
     depends_on:
-      - products-api
+      - products-api-1
+      - products-api-2
     restart: unless-stopped
     networks:
       - public-net
@@ -23,11 +21,32 @@ services:
       interval: 30s
       timeout: 5s
       retries: 3
-  products-api:
+  products-api-1:
     build:
       context: .
       dockerfile: products.api/Dockerfile
-    container_name: products-api
+    container_name: products-api-1
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Production}
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Server=products-db;Database=ProductsDb;User=sa;Password=${PRODUCTS_DB_SA_PASSWORD:-Your_strong_Password123};TrustServerCertificate=True
+    restart: unless-stopped
+    networks:
+      - internal-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    volumes:
+      - ${LOGS_VOLUME:-./logs/products-api}:/app/logs
+    depends_on:
+      - products-db       
+  products-api-2:
+    build:
+      context: .
+      dockerfile: products.api/Dockerfile
+    container_name: products-api-2
     environment:
       - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Production}
       - ASPNETCORE_URLS=http://+:8080
