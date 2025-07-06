@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "products.api", "products.api\products.api.csproj", "{89E38A95-0E1F-4E10-9DFF-C013458F1A9F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "orders.api", "orders.api\orders.api.csproj", "{44E77F53-94A3-4E65-BD1D-B117E56E050F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "basket.api", "basket.api\basket.api.csproj", "{14B468D1-09B0-431D-A36A-6305A0326E35}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "shared", "shared\shared.csproj", "{8847FEBB-7391-42A3-924E-4BCDAA89DCDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gateway", "gateway\gateway.csproj", "{5C912013-6ACE-4E4A-936E-BD763CF8ABC2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9F52BA4C-B50A-4F13-BA55-D04029B93532}"
+	ProjectSection(SolutionItems) = preProject
+		.env = .env
+		.env.example = .env.example
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{89E38A95-0E1F-4E10-9DFF-C013458F1A9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89E38A95-0E1F-4E10-9DFF-C013458F1A9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89E38A95-0E1F-4E10-9DFF-C013458F1A9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89E38A95-0E1F-4E10-9DFF-C013458F1A9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44E77F53-94A3-4E65-BD1D-B117E56E050F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44E77F53-94A3-4E65-BD1D-B117E56E050F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44E77F53-94A3-4E65-BD1D-B117E56E050F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44E77F53-94A3-4E65-BD1D-B117E56E050F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14B468D1-09B0-431D-A36A-6305A0326E35}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14B468D1-09B0-431D-A36A-6305A0326E35}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14B468D1-09B0-431D-A36A-6305A0326E35}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14B468D1-09B0-431D-A36A-6305A0326E35}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8847FEBB-7391-42A3-924E-4BCDAA89DCDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8847FEBB-7391-42A3-924E-4BCDAA89DCDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8847FEBB-7391-42A3-924E-4BCDAA89DCDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8847FEBB-7391-42A3-924E-4BCDAA89DCDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C912013-6ACE-4E4A-936E-BD763CF8ABC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C912013-6ACE-4E4A-936E-BD763CF8ABC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C912013-6ACE-4E4A-936E-BD763CF8ABC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C912013-6ACE-4E4A-936E-BD763CF8ABC2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

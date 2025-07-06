@@ -1,0 +1,78 @@
+﻿version: '3.9'
+
+services:
+  gateway:
+    build:
+      context: .
+      dockerfile: gateway/Dockerfile
+    container_name: gateway
+    ports:
+      - "8000:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Production}
+      - ASPNETCORE_URLS=http://+:8080
+      - ReverseProxy__Clusters__productsCluster__Destinations__productsApi__Address=http://products-api:8080/
+    depends_on:
+      - products-api
+    restart: unless-stopped
+    networks:
+      - public-net
+      - internal-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+  products-api:
+    build:
+      context: .
+      dockerfile: products.api/Dockerfile
+    container_name: products-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Production}
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Server=products-db;Database=ProductsDb;User=sa;Password=${PRODUCTS_DB_SA_PASSWORD:-Your_strong_Password123};TrustServerCertificate=True
+    restart: unless-stopped
+    networks:
+      - internal-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    volumes:
+      - ${LOGS_VOLUME:-./logs/products-api}:/app/logs
+    depends_on:
+      - products-db
+  products-db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: products-db
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${PRODUCTS_DB_SA_PASSWORD:-Your_strong_Password123}
+      - MSSQL_PID=Developer
+    ports:
+      - "14330:1433"
+    networks:
+      - internal-net
+    volumes:
+      - products_data:/var/opt/mssql
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P \"${PRODUCTS_DB_SA_PASSWORD:-Your_strong_Password123}\" -Q \"SELECT 1\" || exit 1"
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    restart: unless-stopped
+networks:
+  public-net:
+  internal-net:
+    internal: true
+
+volumes:
+  products_logs:
+  products_data:

@@ -1,0 +1,29 @@
+@HEADER = http://localhost:8000
+
+### Check general health endpoint
+GET {{HEADER}}/health
+Accept: text/plain
+
+###
+
+### Check products health endpoint
+GET {{HEADER}}/api/products/health
+Accept: text/plain
+
+###
+
+### Get all products
+GET {{HEADER}}/api/products
+Accept: application/json
+
+###
+
+### Add new product
+POST {{HEADER}}/api/products
+Content-Type: application/json
+
+{
+  "name": "New Product",
+  "description": "This is a new product",
+  "price": 19
+}
