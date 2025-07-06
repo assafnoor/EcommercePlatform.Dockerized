@@ -1,0 +1,36 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [products.api, gateway, basket.api]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore ./${{ matrix.service }}/${{ matrix.service }}.csproj
+
+      - name: Build project
+        run: dotnet build --configuration Release ./${{ matrix.service }}/${{ matrix.service }}.csproj
+      - name: Run tests
+        run: |
+          TEST_PATH=./tests/${{ matrix.service }}.tests/${{ matrix.service }}.tests.csproj
+          if [ -f "$TEST_PATH" ]; then
+            dotnet test "$TEST_PATH"
+          else
+            echo "No tests found at $TEST_PATH, skipping test step."
+          fi
